@@ -102,8 +102,7 @@ func parseNumber(input string) (int, error) {
 	if num, err := strconv.Atoi(input); err == nil && num >= 0 && num <= 10 {
 		return num, nil
 	}
-
-	// Try to parse as Roman numeral
+	
 	romanNumerals := map[string]int{
 		"I": 1, "II": 2, "III": 3, "IV": 4, "V": 5,
 		"VI": 6, "VII": 7, "VIII": 8, "IX": 9, "X": 10,
@@ -113,8 +112,7 @@ func parseNumber(input string) (int, error) {
 		return num, nil
 	}
 
-	return 0, fmt.Errorf(`Калькулятор работает с целыми числами от 0 до 10 включительно
-    Внимание ---> %s`, input)
+	return 0, fmt.Errorf(`Калькулятор работает с целыми числами от 0 до 10 включительно.   Внимание ---> %s`, input)
 }
 
 func isRoman(input string) bool {
