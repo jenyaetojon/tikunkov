@@ -102,7 +102,8 @@ func parseNumber(input string) (int, error) {
 	if num, err := strconv.Atoi(input); err == nil && num >= 0 && num <= 10 {
 		return num, nil
 	}
-	
+
+	// Try to parse as Roman numeral
 	romanNumerals := map[string]int{
 		"I": 1, "II": 2, "III": 3, "IV": 4, "V": 5,
 		"VI": 6, "VII": 7, "VIII": 8, "IX": 9, "X": 10,
@@ -112,7 +113,8 @@ func parseNumber(input string) (int, error) {
 		return num, nil
 	}
 
-	return 0, fmt.Errorf(`Калькулятор работает с целыми числами от 0 до 10 включительно.   Внимание ---> %s`, input)
+	return 0, fmt.Errorf(`Калькулятор работает с целыми числами от 0 до 10 включительно
+    Внимание ---> %s`, input)
 }
 
 func isRoman(input string) bool {
@@ -126,12 +128,19 @@ func isRoman(input string) bool {
 }
 
 func toRoman(num int) string {
-
+	// Структура, содержащая соответствия между числами и римскими цифрами
 	romanNumerals := []struct {
 		Value  int
 		Symbol string
 	}{
-
+		{1000, "M"},
+		{900, "CM"},
+		{500, "D"},
+		{400, "CD"},
+		{100, "C"},
+		{90, "XC"},
+		{50, "L"},
+		{40, "XL"},
 		{10, "X"},
 		{9, "IX"},
 		{5, "V"},
@@ -139,12 +148,20 @@ func toRoman(num int) string {
 		{1, "I"},
 	}
 
-	roman := ""
+	// Переменная для хранения результата преобразования в римское число
+	var result strings.Builder
+
+	// Проходим по каждому элементу структуры romanNumerals
 	for _, rn := range romanNumerals {
+		// Пока число больше или равно значению текущего элемента структуры
 		for num >= rn.Value {
-			roman += rn.Symbol
+			// Добавляем символ римской цифры в результат
+			result.WriteString(rn.Symbol)
+			// Вычитаем значение текущего элемента из числа
 			num -= rn.Value
 		}
 	}
-	return roman
+
+	// Возвращаем результат преобразования в виде строки
+	return result.String()
 }
